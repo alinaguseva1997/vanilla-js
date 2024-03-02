@@ -1,0 +1,19 @@
+<script>
+    let phoneRegex = /37529\d{7}/; //проверяет валидность номера телефона
+    console.log(phoneRegex.test(375292536985))
+
+    let emailRegex = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]{2,}$/; //проверяет валидность email
+    console.log(emailRegex.test('AliNa21_23@gmail.com'))
+    console.log(emailRegex.test('AliNa21_23@jcklk532.ddf'))
+
+    let domainWithProtocolRegex = /^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/ //проверяет валидность protocol with domain
+    console.log(domainWithProtocolRegex.test('http://tyt.by'))
+    console.log(domainWithProtocolRegex.test('https://tyt.by'))
+
+    let domainProtocolRegex = /^(https?:\/\/)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/ //проверяет валидность domain, но протокола может и не быть
+    console.log(domainProtocolRegex.test('incubator.by'))
+    console.log(domainWithProtocolRegex.test('https://incubator.by'))
+
+
+
+</script>

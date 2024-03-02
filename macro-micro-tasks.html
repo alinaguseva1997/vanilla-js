@@ -1,0 +1,116 @@
+function a() {
+    console.log('a')
+}
+function b() {
+    console.log('b')
+}
+function c() {
+    console.log('c')
+}
+a();
+new Promise(function(res,rej) {
+    console.log('create promise');
+    setTimeout(function timer() {
+        res(console.log('timer'))
+    }, 5000)
+});
+b()
+c()
+
+// a , create promise , b, c, timer - порядок вывода
+//в данном примере промис создается также синхронно как и любая ф-ция с помощью конструктора. Асинхронной здесь явл только setTimeout. Он отправится в WEB APIб там ждет 5с и далее в макротаску.
+// и далее если стэк пустой, то выполнится колбек. Промис был бы асинхронным, если бы мы его вернули и подписались на него.
+
+//--------------------------------------------------------------------------------------------------
+
+setTimeout(()=> {
+    console.log('1')
+}, 0)
+setTimeout(()=> {
+    console.log('2')
+}, 1000)
+
+new Promise(function(res,rej) {
+    console.log('3');
+    res()
+    console.log('4');
+}).then(()=>{
+    console.log('5');
+})
+
+console.log('6');
+
+async function test1() {
+    console.log('7');
+    await test2()
+    console.log('8');
+}
+
+async function test2() {
+    console.log('9');
+}
+
+test1()
+
+console.log('10')
+
+// 3 4 6 7 9 10 5 8 1 2
+
+//----------------------------------------------------------------------------------------------------
+
+const myPr = (delay) => {
+    return new Promise ((res,rej) => {
+        setTimeout(res, delay)
+    })
+};
+
+setTimeout(() => {
+    console.log('1')
+}, 1000)
+
+
+myPr(1000).then(() => console.log('2'))
+
+setTimeout(() => {
+    console.log('3')
+}, 100)
+
+myPr(2000).then(() => console.log('4'))
+
+//3 1 2 4
+
+//---------------------------------------------------------------------------------------------------
+
+console.log(1)
+
+setTimeout(() => {
+    console.log(2)
+    Promise.resolve().then (() => {
+        console.log(3)
+    })
+})
+
+new Promise ((res,rej) => {
+    console.log(4)
+    res(5)
+}).then((data) => {
+    console.log(data)
+})
+
+Promise.resolve()
+    .then(() => {
+    console.log(6)})
+    .then(() => {
+    console.log(7)
+    setTimeout(() => {
+        console.log(8)
+        },0)
+    })
+
+setTimeout(() => {
+    console.log(9)
+})
+
+console.log(10)
+
+// 1 4 10 5 6 7 2 3 9 8
